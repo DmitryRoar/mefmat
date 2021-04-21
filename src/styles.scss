@@ -1,0 +1,28 @@
+a{
+  text-decoration: none;
+  color: #000;
+}
+
+body{
+  background: #303030;
+}
+
+ul,ol{
+  list-style-type: none;
+}
+
+.wrapper{
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 0 58px;
+}
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+@import "assets/styles/index";
