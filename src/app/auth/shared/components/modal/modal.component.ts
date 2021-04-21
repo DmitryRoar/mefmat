@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core'
 
-import {IModal} from '../../interfaces/modal.interface'
+import {IModal, ModalTypes} from '../../interfaces/modal.interface'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
 
 @Component({
@@ -24,13 +24,19 @@ export class ModalComponent implements OnInit {
     })
   }
 
-  onSubmit(type: string) {
+  onSubmit(type: ModalTypes) {
     const {email, password, confirmPassword, username} = this.form.value
 
     switch (type) {
       case 'model': {
-        console.log('hello')
-      }
+        console.log('model')
+      } break
+      case 'login': {
+        console.log('login')
+      } break
+      case 'register': {
+        console.log('register')
+      } break
     }
     const query = `
       mutation(email: "${email}", password: "${password}", username: "${username}") {
