@@ -1,4 +1,4 @@
-import {Component, DoCheck, Input, OnInit} from '@angular/core'
+import {Component, DoCheck} from '@angular/core'
 import {StorageEnum} from '../../enums/storage.enum'
 
 @Component({

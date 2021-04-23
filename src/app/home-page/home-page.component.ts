@@ -1,8 +1,9 @@
 import {Component, DoCheck, OnChanges, OnInit, ViewEncapsulation} from '@angular/core'
 
-import {UserService} from '../shared/services/user.service'
+import {MainService} from '../shared/services/main.service'
 
 import {StorageEnum} from '../shared/enums/storage.enum'
+import {IBestUser} from '../shared/interfaces/best-user.interface'
 
 @Component({
   selector: 'app-home-page',
@@ -12,11 +13,14 @@ import {StorageEnum} from '../shared/enums/storage.enum'
 export class HomePageComponent implements OnInit, DoCheck {
   openBurger = ''
 
+  users: IBestUser[] = []
+
   constructor(
-    public userService: UserService
+    private mainService: MainService
   ) { }
 
   ngOnInit(): void {
+    this.users = this.mainService.getBestWeek()
   }
 
   ngDoCheck(): void {

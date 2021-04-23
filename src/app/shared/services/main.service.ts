@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core'
 import {IBestUser} from '../interfaces/best-user.interface'
+import {StorageEnum} from '../enums/storage.enum'
 
 @Injectable({providedIn: 'root'})
-export class UserService {
+export class MainService {
   getBestWeek(): IBestUser[] {
     return [
       {
@@ -48,5 +49,9 @@ export class UserService {
         countView: '2k'
       },
     ]
+  }
+
+  get checkReadWarning() {
+    return !!localStorage.getItem(StorageEnum.readWarning)
   }
 }

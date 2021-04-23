@@ -3,9 +3,9 @@
 <section class="main" [class.aside-open]="openBurger === 'true'">
   <app-side-menu></app-side-menu>
   <div class="wrapper">
-    <div class="main__block main__block_best">
+    <div class="main__block main__block_best" >
       <h2>Best of this week</h2>
-      <div class="best-af">
+      <div class="best-af" *ngIf="users.length; else empty">
         <div class="main__best">
           <a class="best__item" href="#">
             <img src="/assets/img/mock/ph1.png" alt="photo">
@@ -65,13 +65,14 @@
         </a></div>
       </div>
     </div>
-    <div class="main__block">
+
+    <div class="main__block" *ngIf="users.length">
       <h2>Best of this week</h2>
       <div class="ovf">
         <div class="main__items">
           <a
             class="main__item"
-            *ngFor="let user of userService.getBestWeek()"
+            *ngFor="let user of users"
             [routerLink]="user.link"
           >
             <img src="/assets/img/mock/ph3.png" alt="photo">
@@ -104,44 +105,9 @@
         <div class="line"></div>
       </div>
     </div>
-    <div class="main__block">
-      <h2>Best of this week</h2>
-      <div class="ovf">
-        <div class="main__items">
-          <a
-            class="main__item"
-            *ngFor="let user of userService.getBestWeek()"
-            [routerLink]="user.link"
-          >
-            <img src="/assets/img/mock/ph3.png" alt="photo">
-            <div class="item__text">
-              <div class="item__persone">
-                <div class="photo">
-                  <img [src]="user.img" alt="photo">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="5" y="6" width="11" height="8" fill="white"/>
-                    <path
-                      d="M10 20C12.6522 20 15.1957 18.9464 17.0711 17.0711C18.9464 15.1957 20 12.6522 20 10C20 7.34784 18.9464 4.8043 17.0711 2.92893C15.1957 1.05357 12.6522 0 10 0C7.34784 0 4.8043 1.05357 2.92893 2.92893C1.05357 4.8043 0 7.34784 0 10C0 12.6522 1.05357 15.1957 2.92893 17.0711C4.8043 18.9464 7.34784 20 10 20ZM14.208 8.208L9.708 12.708C9.61511 12.8011 9.50476 12.875 9.38327 12.9254C9.26178 12.9758 9.13153 13.0018 9 13.0018C8.86847 13.0018 8.73822 12.9758 8.61673 12.9254C8.49524 12.875 8.38489 12.8011 8.292 12.708L6.292 10.708C6.10423 10.5202 5.99874 10.2656 5.99874 10C5.99874 9.73445 6.10423 9.47977 6.292 9.292C6.47977 9.10423 6.73445 8.99874 7 8.99874C7.26555 8.99874 7.52023 9.10423 7.708 9.292L9 10.586L12.792 6.792C12.885 6.69902 12.9954 6.62527 13.1168 6.57495C13.2383 6.52464 13.3685 6.49874 13.5 6.49874C13.6315 6.49874 13.7617 6.52464 13.8832 6.57495C14.0046 6.62527 14.115 6.69902 14.208 6.792C14.301 6.88498 14.3747 6.99535 14.425 7.11683C14.4754 7.23831 14.5013 7.36851 14.5013 7.5C14.5013 7.63149 14.4754 7.76169 14.425 7.88317C14.3747 8.00465 14.301 8.11502 14.208 8.208Z"
-                      fill="#0047FF"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="item__name">{{user.name}}</div>
-              <p class="item__p">{{user.desc}}</p>
-              <div class="item__views">{{user.countView}} views</div>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="view-more">
-        <div class="line"></div>
-        <div class="text"><span>More</span>
-          <svg width="9" height="6" viewBox="0 0 9 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4.49509 3.17L1.38386 0L0 1.41L4.49509 6L9 1.41L7.60633 0L4.49509 3.17Z" fill="white"/>
-          </svg>
-        </div>
-        <div class="line"></div>
-      </div>
-    </div>
+
+    <ng-template #empty>
+      <app-empty></app-empty>
+    </ng-template>
   </div>
 </section>

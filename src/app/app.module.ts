@@ -8,19 +8,18 @@ import {RefDirective} from './shared/directives/ref.directive'
 
 import {AppComponent} from './app.component'
 import {MainLayoutComponent} from './shared/components/main-layout/main-layout.component'
-import {WarningComponent} from './shared/components/warning/warning.component'
 import {HomePageComponent} from './home-page/home-page.component'
+import {EmptyComponent} from './shared/components/empty/empty.component'
 import {HeaderComponent} from './shared/components/header/header.component'
-import {SideMenuComponent} from './shared/components/side-menu/side-menu.component';
+import {WarningComponent} from './shared/components/warning/warning.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     MainLayoutComponent,
-    WarningComponent,
     HomePageComponent,
-    HeaderComponent,
-    SideMenuComponent,
+    EmptyComponent,
+    WarningComponent,
     RefDirective
   ],
   imports: [
@@ -29,6 +28,9 @@ import {SideMenuComponent} from './shared/components/side-menu/side-menu.compone
     SharedModule
   ],
   providers: [],
+  exports: [
+    HeaderComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

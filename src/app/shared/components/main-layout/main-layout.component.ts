@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core'
 
 import {StorageEnum} from '../../enums/storage.enum'
+import {MainService} from '../../services/main.service'
 
 @Component({
   selector: 'app-main-layout',
@@ -8,16 +9,14 @@ import {StorageEnum} from '../../enums/storage.enum'
   styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent implements OnInit {
-  constructor() {
+  constructor(
+    public readonly  mainService: MainService
+  ) {
   }
 
   ngOnInit(): void {
   }
 
   closeWarning() {
-  }
-
-  checkReadWarning() {
-    return !!localStorage.getItem(StorageEnum.readWarning)
   }
 }
