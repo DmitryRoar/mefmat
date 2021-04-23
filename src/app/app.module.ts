@@ -1,17 +1,23 @@
 import {BrowserModule} from '@angular/platform-browser'
-import {NgModule} from '@angular/core'
+import {NgModule, Provider} from '@angular/core'
 
 import {AppRoutingModule} from './app-routing.module'
 import {SharedModule} from './shared/shared.module'
-
-import {RefDirective} from './shared/directives/ref.directive'
 
 import {AppComponent} from './app.component'
 import {MainLayoutComponent} from './shared/components/main-layout/main-layout.component'
 import {HomePageComponent} from './home-page/home-page.component'
 import {EmptyComponent} from './shared/components/empty/empty.component'
-import {HeaderComponent} from './shared/components/header/header.component'
 import {WarningComponent} from './shared/components/warning/warning.component'
+import {HTTP_INTERCEPTORS} from '@angular/common/http'
+import {AuthInterceptor} from './auth/shared/interceptors/auth.interceptor'
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2'
+
+const INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptor,
+  multi: true
+}
 
 @NgModule({
   declarations: [
@@ -19,18 +25,15 @@ import {WarningComponent} from './shared/components/warning/warning.component'
     MainLayoutComponent,
     HomePageComponent,
     EmptyComponent,
-    WarningComponent,
-    RefDirective
+    WarningComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    SweetAlert2Module.forRoot()
   ],
-  providers: [],
-  exports: [
-    HeaderComponent
-  ],
+  providers: [INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent]
 })
 export class AppModule {

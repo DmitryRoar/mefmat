@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core'
 import {UserService} from '../shared/services/user.service'
 import {IUser} from '../shared/interfaces/user.interface'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
+import {StorageEnum} from '../../shared/enums/storage.enum'
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-user-page',
@@ -12,8 +14,11 @@ export class UserPageComponent implements OnInit {
   form: FormGroup
   user: IUser
 
+  disabledButton = false
+
   constructor(
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -26,18 +31,31 @@ export class UserPageComponent implements OnInit {
   }
 
   onSubmit() {
+    this.disabledButton = true
     const {password, newPassword, repeatNewPassword} = this.form.value
     if (newPassword !== repeatNewPassword) {
       return
     }
 
     const query = `
-      mutation{
+      mutation {
         changeUserPassword(command: {oldPassword: "${password}", newPassword: "${newPassword}"}) {
-          result {session {token}}
+            errorMessage
         }
       }
     `
-    this.userService.changePassword(query).subscribe()
+    this.userService.changePassword(query).subscribe(() => {
+      this.disabledButton = false
+    }, () => {
+      this.disabledButton = false
+    })
+  }
+
+  verifyEmailNavigate() {
+    this.router.navigate(['/user', 'email', 'verify'], {
+      queryParams: {
+        verifyToken: localStorage.getItem(StorageEnum.userSession) || 'hello'
+      }
+    })
   }
 }

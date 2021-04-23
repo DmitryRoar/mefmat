@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
-import {HttpClient, HttpHeaders} from '@angular/common/http'
-import {Observable} from 'rxjs'
-import {tap} from 'rxjs/operators'
+import {HttpClient, HttpErrorResponse} from '@angular/common/http'
+import {Observable, throwError} from 'rxjs'
+import {catchError, tap} from 'rxjs/operators'
 
 import {StorageEnum} from '../../../shared/enums/storage.enum'
 
@@ -25,20 +25,34 @@ export class AuthService {
   authorizeUser(query: string): Observable<IAuthorizeUser> {
     return this.http.post<IAuthorizeUser>(`${environment.serverUrl}`, {query})
       .pipe(
-        tap(this.setToken)
+        tap(this.setToken),
+        catchError(this.handleError.bind(this))
       )
   }
 
   logout(query: string): Observable<any> {
     return this.http.post<any>(`${environment.serverUrl}`, {query})
+      .pipe(
+        tap(() => localStorage.clear())
+      )
+  }
+
+  get isAuth() {
+    return !!localStorage.getItem(StorageEnum.userSession)
   }
 
   private setToken(response: IAuthorizeUser | null) {
+    localStorage.setItem(StorageEnum.userSession, 'test')
     const token = response.data.authorizeUser.result.session.token
-    const headers = new HttpHeaders();
+    console.log('TOKEN: ', token)
     if (token) {
-      headers.set('Authorization', token)
+      localStorage.setItem(StorageEnum.userSession, token)
     }
-    console.log(headers)
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    // alert error
+    console.log('auth handle error')
+    return throwError(error)
   }
 }

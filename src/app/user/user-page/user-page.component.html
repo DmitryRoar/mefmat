@@ -62,7 +62,9 @@
         <div class="top__authenticator">
           <h4>Google Authenticator / Authy</h4>
           <p>Используется для вывода средств и изменения настроек безопасности</p>
-          <div class="top__balance"><a href="#">Добавить</a></div>
+          <div class="top__balance">
+            <button (click)="verifyEmailNavigate()" [disabled]="disabledButton">Добавить</button>
+          </div>
         </div>
         <div class="top__password">
           <h4>Изменить пароль</h4>
@@ -75,18 +77,29 @@
                 *ngIf="form.get('password').invalid && form.get('password').touched"
               >
                 Требуется заполнить это поле
-                {{form.get('password') | json}}
               </div>
             </div>
             <div class="input">
               <h5>Новый пароль</h5>
               <input type="text" formControlName="newPassword">
+              <div
+                class="error"
+                *ngIf="form.get('newPassword').invalid && form.get('newPassword').touched"
+              >
+                Требуется заполнить это поле
+              </div>
             </div>
             <div class="input">
               <h5>Повторите новый пароль</h5>
               <input type="text" formControlName="repeatNewPassword">
+              <div
+                class="error"
+                *ngIf="form.get('repeatNewPassword').invalid && form.get('repeatNewPassword').touched"
+              >
+                Требуется заполнить это поле
+              </div>
             </div>
-            <input type="submit">
+            <input type="submit" style="display: none">
           </form>
         </div>
         <div class="top__information">

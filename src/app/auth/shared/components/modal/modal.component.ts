@@ -45,6 +45,7 @@ export class ModalComponent implements OnInit {
         query {
           authorizeUser(query: {username: "${email}", password: "${password}"}) {
             result {session {token}}
+            errorMessage
           }
         }
         `

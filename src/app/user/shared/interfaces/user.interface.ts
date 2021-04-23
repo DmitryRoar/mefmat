@@ -1,5 +1,4 @@
 export interface IUser {
-
   name: string
   img: string
   country: string
@@ -12,4 +11,27 @@ export interface IUser {
     img: string
     url: string;
   }[]
+}
+
+export interface IVerifyEmail {
+  data: {
+    verifyEmail: {
+      errorMessage: string
+      success: boolean
+    }
+  }
+}
+
+export interface IChangePassword {
+  data: {
+    changeUserPassword: {
+      result: {
+        session: {
+          token: string
+        }
+      }
+      errorMessage: string
+      success: boolean
+    }
+  }
 }

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core'
 
 import {StorageEnum} from '../../enums/storage.enum'
 import {AuthService} from '../../../auth/shared/services/auth.service'
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,8 @@ export class HeaderComponent implements OnInit {
   searchWindow = false
 
   constructor(
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +36,8 @@ export class HeaderComponent implements OnInit {
         }
       }
     `
-    this.authService.logout(query).subscribe()
+    this.authService.logout(query).subscribe(() => {
+      this.router.navigate(['/'])
+    })
   }
 }

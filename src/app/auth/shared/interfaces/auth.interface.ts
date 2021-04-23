@@ -10,6 +10,8 @@ export interface IAuthorizeUser {
           token: string
         }
       }
+      errorMessage: string
+      success: boolean
     }
   }
 }

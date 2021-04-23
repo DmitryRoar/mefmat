@@ -6,7 +6,8 @@
   padding-bottom: 77px;
   min-width: 55px;
   max-width: 55px;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   transition: all .3s ease;
   position: absolute;
   top: 0;
