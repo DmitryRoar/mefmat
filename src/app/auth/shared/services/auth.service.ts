@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   get isAuth() {
-    return !!localStorage.getItem(StorageEnum.userSession)
+    return localStorage.getItem(StorageEnum.userSession)
   }
 
   private setToken(response: IAuthorizeUser | null) {

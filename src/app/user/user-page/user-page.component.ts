@@ -3,7 +3,9 @@ import {UserService} from '../shared/services/user.service'
 import {IUser} from '../shared/interfaces/user.interface'
 import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {StorageEnum} from '../../shared/enums/storage.enum'
-import {Router} from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
+import {SweetAlert2LoaderService} from '@sweetalert2/ngx-sweetalert2'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-user-page',

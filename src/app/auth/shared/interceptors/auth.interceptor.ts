@@ -1,16 +1,13 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http'
-import {Router} from '@angular/router'
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http'
 import {Injectable} from '@angular/core'
-import {Observable, throwError} from 'rxjs'
-import {catchError} from 'rxjs/operators'
+import {Observable} from 'rxjs'
 
 import {AuthService} from '../services/auth.service'
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
-    private readonly authService: AuthService,
-    private router: Router
+    private readonly authService: AuthService
   ) {
   }
 
@@ -23,18 +20,5 @@ export class AuthInterceptor implements HttpInterceptor {
       })
     }
     return next.handle(req)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            this.router.navigate(['/auth', 'sign-in'], {
-              queryParams: {
-                authFailed: true
-              }
-            })
-          }
-
-          return throwError(error)
-        })
-      )
   }
 }
