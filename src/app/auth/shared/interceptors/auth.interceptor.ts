@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (this.authService.isAuth) {
       req = req.clone({
         setParams: {
-          Authorization: `Bearer ${this.authService.isAuth}`
+          Authorization: this.authService.isAuth
         }
       })
     }
