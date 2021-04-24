@@ -8,11 +8,13 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http'
 import {AuthInterceptor} from '../auth/shared/interceptors/auth.interceptor'
 
 import {UserService} from './shared/services/user.service'
-import {VerifyGuard} from './shared/guards/verify.guard'
+import {UserGuard} from './shared/guards/user.guard'
 
 import {UserPageComponent} from './user-page/user-page.component'
 import {UserLayoutComponent} from './shared/components/user-layout/user-layout.component'
-import {VerifyPageComponent} from './verify-page/verify-page.component'
+import {VerifyPageComponent} from './verify-page/verify-page.component';
+import { SettingsPageComponent } from './settings-page/settings-page.component'
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2'
 
 
 const INTERCEPTOR_PROVIDER: Provider = {
@@ -25,16 +27,18 @@ const INTERCEPTOR_PROVIDER: Provider = {
   declarations: [
     UserPageComponent,
     UserLayoutComponent,
-    VerifyPageComponent
+    VerifyPageComponent,
+    SettingsPageComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    UserRoutingModule
+    UserRoutingModule,
+    SweetAlert2Module.forChild()
   ],
   providers: [
     UserService,
-    VerifyGuard,
+    UserGuard,
     INTERCEPTOR_PROVIDER
   ]
 })

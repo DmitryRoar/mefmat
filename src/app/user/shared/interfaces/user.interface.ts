@@ -13,7 +13,7 @@ export interface IUser {
   }[]
 }
 
-export interface IVerifyEmail {
+export interface IOutputVerifyEmail {
   data: {
     verifyEmail: {
       errorMessage: string
@@ -22,7 +22,7 @@ export interface IVerifyEmail {
   }
 }
 
-export interface IChangePassword {
+export interface IOutputChangePassword {
   data: {
     changeUserPassword: {
       result: {
@@ -34,4 +34,9 @@ export interface IChangePassword {
       success: boolean
     }
   }
+}
+
+export interface IChangePassword {
+  oldPassword: string
+  newPassword: string
 }

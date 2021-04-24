@@ -5,6 +5,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms'
 import {AuthService} from '../../services/auth.service'
 
 import {IModal, ModalTypes} from '../../interfaces/modal.interface'
+import {IAuthorizeUser, ICreateUser} from '../../interfaces/auth.interface'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-modal',
@@ -40,31 +42,22 @@ export class ModalComponent implements OnInit {
       }
         break
       case 'login': {
-        console.log('login')
-        const query = `
-        query {
-          authorizeUser(query: {username: "${email}", password: "${password}"}) {
-            result {session {token}}
-            errorMessage
-          }
+        const data: IAuthorizeUser = {
+          email,
+          password
         }
-        `
-        this.authService.authorizeUser(query).subscribe((result) => {
+        this.authService.authorizeUser(data).subscribe((result) => {
           this.router.navigate(['/', 'user', result.data.authorizeUser.result.session.token])
         })
       }
         break
       case 'register': {
-        console.log('register')
-        const query = `
-          mutation{
-            registerUser(command: {email: "${email}", password: "${password}", username:"${email}"}) {
-              success
-            }
-          }
-        `
-        this.authService.createUser(query).subscribe((result) => {
-          console.log(result.data.registerUser.success)
+        const data: ICreateUser = {
+          email,
+          password,
+          username: email
+        }
+        this.authService.createUser(data).subscribe((d) => {
           this.router.navigate(['/', 'auth', 'sign-in'])
         })
       }

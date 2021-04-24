@@ -1,8 +1,9 @@
-export interface IQuery {
-  data: string
+export interface IAuthorizeUser {
+  email: string
+  password: string
 }
 
-export interface IAuthorizeUser {
+export interface IOutputAuthorizeUser {
   data: {
     authorizeUser: {
       result: {
@@ -17,9 +18,20 @@ export interface IAuthorizeUser {
 }
 
 export interface ICreateUser {
+  email: string
+  password: string
+  username: string
+}
+
+export interface IOutputCreateUser {
   data: {
     registerUser: {
       success: boolean;
     }
   }
+}
+
+export interface IOutputLogout {
+  success: boolean
+  errorMessage: string
 }

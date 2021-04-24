@@ -29,14 +29,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    const query = `
-      mutation {
-        logout {
-          success
-        }
-      }
-    `
-    this.authService.logout(query).subscribe(() => {
+    this.authService.logout().subscribe(() => {
       this.router.navigate(['/'])
     })
   }

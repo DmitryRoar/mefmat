@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {HttpClient} from '@angular/common/http'
 
-import {IChangePassword, IUser, IVerifyEmail} from '../interfaces/user.interface'
+import {IChangePassword, IOutputChangePassword, IOutputVerifyEmail, IUser} from '../interfaces/user.interface'
 
 import {environment} from '../../../../environments/environment'
 import {Observable} from 'rxjs'
@@ -62,11 +62,26 @@ export class UserService {
     }
   }
 
-  verifyEmail(query: string): Observable<IVerifyEmail> {
-    return this.http.post<IVerifyEmail>(`${environment.serverUrl}`, {query})
+  verifyEmail(token: string): Observable<IOutputVerifyEmail> {
+    const query = `
+        mutation {
+          verifyEmail(command: {token: "${token}"}) {
+          success
+          errorMessage
+        }
+      }
+    `
+    return this.http.post<IOutputVerifyEmail>(`${environment.serverUrl}`, {query})
   }
 
-  changePassword(query: string): Observable<IChangePassword> {
-    return this.http.post<IChangePassword>(`${environment.serverUrl}`, {query})
+  changePassword(data: IChangePassword): Observable<IOutputChangePassword> {
+    const query = `
+      mutation {
+        changeUserPassword(command: {oldPassword: "${data.oldPassword}", newPassword: "${data.newPassword}"}) {
+            errorMessage
+        }
+      }
+    `
+    return this.http.post<IOutputChangePassword>(`${environment.serverUrl}`, {query})
   }
 }

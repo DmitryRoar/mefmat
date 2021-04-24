@@ -5,43 +5,78 @@ import {catchError, tap} from 'rxjs/operators'
 
 import {StorageEnum} from '../../../shared/enums/storage.enum'
 
-import {IAuthorizeUser, ICreateUser, IQuery} from '../interfaces/auth.interface'
+import {
+  IAuthorizeUser,
+  ICreateUser,
+  IOutputAuthorizeUser,
+  IOutputCreateUser,
+  IOutputLogout
+} from '../interfaces/auth.interface'
 
 import {environment} from '../../../../environments/environment'
+import Swal from 'sweetalert2'
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  createUser(query: string): Observable<ICreateUser> {
-    return this.http.post<ICreateUser>(`${environment.serverUrl}`, {query})
+  get isAuth(): string {
+    return localStorage.getItem(StorageEnum.userSession)
   }
 
-  authorized(query: string): Observable<IQuery> {
-    return this.http.post<IQuery>(`${environment.serverUrl}`, {query})
+  createUser(data: ICreateUser): Observable<IOutputCreateUser> {
+    const query = `
+     mutation{
+        registerUser(command: {email: "${data.email}", password: "${data.password}", username:"${data.username}"}) {
+          success
+        }
+      }
+    `
+    return this.http.post<IOutputCreateUser>(`${environment.serverUrl}`, {query})
   }
 
-  authorizeUser(query: string): Observable<IAuthorizeUser> {
-    return this.http.post<IAuthorizeUser>(`${environment.serverUrl}`, {query})
+  authorized(): Observable<boolean> {
+    const query = `
+      query {
+        authorized
+      }
+    `
+    return this.http.post<boolean>(`${environment.serverUrl}`, {query})
+  }
+
+  authorizeUser(data: IAuthorizeUser): Observable<IOutputAuthorizeUser> {
+    const query = `
+      query {
+        authorizeUser(query: {username: "${data.email}", password: "${data.password}"}) {
+          result {session {token}}
+          errorMessage
+        }
+      }
+    `
+    return this.http.post<IOutputAuthorizeUser>(`${environment.serverUrl}`, {query})
       .pipe(
         tap(this.setToken),
         catchError(this.handleError.bind(this))
       )
   }
 
-  logout(query: string): Observable<any> {
-    return this.http.post<any>(`${environment.serverUrl}`, {query})
+  logout(): Observable<IOutputLogout> {
+    const query = `
+      mutation {
+        logout {
+          success
+          errorMessage
+        }
+      }
+    `
+    return this.http.post<IOutputLogout>(`${environment.serverUrl}`, {query})
       .pipe(
         tap(() => localStorage.clear())
       )
   }
 
-  get isAuth() {
-    return localStorage.getItem(StorageEnum.userSession)
-  }
-
-  private setToken(response: IAuthorizeUser | null) {
+  private setToken(response: IOutputAuthorizeUser | null) {
     localStorage.setItem(StorageEnum.userSession, 'test')
     const token = response.data.authorizeUser.result.session.token
     console.log('TOKEN: ', token)
@@ -51,8 +86,7 @@ export class AuthService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    // alert error
-    console.log('auth handle error')
+    Swal.fire('Что-то пошло не так', 'Попробуйте попытку позже', 'error')
     return throwError(error)
   }
 }

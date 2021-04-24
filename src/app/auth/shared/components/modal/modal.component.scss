@@ -16,7 +16,7 @@
 
 .popup {
   position: fixed;
-  z-index: 99999;
+  z-index: 1060;
   width: 100%;
   height: 100%;
   padding: 20px;
@@ -189,11 +189,11 @@
   display: flex
 }
 
-.popup__close:hover {
-  -webkit-box-shadow: 0 0 5px 2px #fff;
-  box-shadow: 0 0 5px 2px #fff;
-  border-radius: 50%
-}
+//.popup__close:hover {
+//  -webkit-box-shadow: 0 0 5px 2px #fff;
+//  box-shadow: 0 0 5px 2px #fff;
+//  border-radius: 50%
+//}
 
 .popup form {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(-17.35%, #b44b4b), color-stop(212.31%, #d36e6e));
