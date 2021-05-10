@@ -1,7 +1,7 @@
 ## Routes
-* /user/:id 
+* /user/view/:id 
 * /user/settings
-* /user/**/verify
+* /user/settings/**/verify
 * /auth/sign-up
 * /auth/sign-up/model
 * /auth/sign-in
